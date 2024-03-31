@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 @MockitoSettings(strictness = Strictness.STRICT_STUBS)
-public class PaymentProcessorImplWithSpyTest {
+class PaymentProcessorImplWithSpyTest {
 
     @Mock
     AccountDao accountDao;
@@ -41,7 +41,7 @@ public class PaymentProcessorImplWithSpyTest {
     }
 
     @Test
-    public void testTransfer() {
+    void testTransfer() {
         Agreement sourceAgreement = new Agreement();
         sourceAgreement.setId(1L);
 
