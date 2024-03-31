@@ -10,7 +10,7 @@ import ru.otus.bank.entity.Agreement;
 
 import java.util.Optional;
 
-public class AgreementServiceImplTest {
+class AgreementServiceImplTest {
 
     private AgreementDao dao = Mockito.mock(AgreementDao.class);
 
@@ -22,7 +22,7 @@ public class AgreementServiceImplTest {
     }
 
     @Test
-    public void testFindByName() {
+    void testFindByName() {
         String name = "test";
         Agreement agreement = new Agreement();
         agreement.setId(10L);
@@ -38,7 +38,7 @@ public class AgreementServiceImplTest {
     }
 
     @Test
-    public void testFindByNameWithCaptor() {
+    void testFindByNameWithCaptor() {
         String name = "test";
         Agreement agreement = new Agreement();
         agreement.setId(10L);

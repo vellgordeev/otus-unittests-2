@@ -1,6 +1,7 @@
 package ru.otus.bank.entity;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 public class Account {
 
@@ -51,6 +52,19 @@ public class Account {
 
     public void setAgreementId(Long agreementId) {
         this.agreementId = agreementId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Account account = (Account) o;
+        return id == account.id && Objects.equals(amount, account.amount) && Objects.equals(type, account.type) && Objects.equals(number, account.number) && Objects.equals(agreementId, account.agreementId);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, amount, type, number, agreementId);
     }
 
     @Override

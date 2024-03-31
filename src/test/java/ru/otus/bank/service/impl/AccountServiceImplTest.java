@@ -21,7 +21,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class AccountServiceImplTest {
+class AccountServiceImplTest {
     @Mock
     AccountDao accountDao;
 
@@ -29,7 +29,7 @@ public class AccountServiceImplTest {
     AccountServiceImpl accountServiceImpl;
 
     @Test
-    public void testTransfer() {
+    void testTransfer() {
         Account sourceAccount = new Account();
         sourceAccount.setAmount(new BigDecimal(100));
 
@@ -46,8 +46,23 @@ public class AccountServiceImplTest {
     }
 
     @Test
-    public void testSourceNotFound() {
+    void testSourceNotFound() {
         when(accountDao.findById(any())).thenReturn(Optional.empty());
+
+        var sum = new BigDecimal(10);
+        AccountException result = assertThrows(AccountException.class, () ->
+                accountServiceImpl.makeTransfer(1L, 2L, sum));
+
+        assertEquals("No source account", result.getLocalizedMessage());
+    }
+
+    @Test
+    void testDestinationNotFound() {
+        Account sourceAccount = new Account();
+        sourceAccount.setAmount(new BigDecimal(100));
+
+        when(accountDao.findById(eq(1L))).thenReturn(Optional.of(sourceAccount));
+        when(accountDao.findById(eq(2L))).thenReturn(Optional.empty());
 
         AccountException result = assertThrows(AccountException.class, new Executable() {
             @Override
@@ -55,12 +70,12 @@ public class AccountServiceImplTest {
                 accountServiceImpl.makeTransfer(1L, 2L, new BigDecimal(10));
             }
         });
-        assertEquals("No source account", result.getLocalizedMessage());
+        assertEquals("No destination account", result.getLocalizedMessage());
     }
 
 
     @Test
-    public void testTransferWithVerify() {
+    void testTransferWithVerify() {
         Account sourceAccount = new Account();
         sourceAccount.setAmount(new BigDecimal(100));
         sourceAccount.setId(1L);
@@ -82,5 +97,5 @@ public class AccountServiceImplTest {
 
         verify(accountDao).save(argThat(sourceMatcher));
         verify(accountDao).save(argThat(destinationMatcher));
-        }
+    }
 }
